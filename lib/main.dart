@@ -70,8 +70,8 @@ class _HomePageState extends State<HomePage> {
     TopNavbar(),
     ProfilePage(),
     ServicePage(),
-    // PortfolioPage(),
-    // ContactPage()
+    SelectedWorks(),
+    ContactPage()
   ];
 
   @override
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
       color: Colors.grey,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
-        itemCount: 3,
+        itemCount: 5,
         itemBuilder: (context, index) {
           return pageList[index];
         },
@@ -134,17 +134,21 @@ class MobileNavbar extends StatefulWidget {
 class _MobileNavbarState extends State<MobileNavbar> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Button()
-        ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 50.0),
+      child: Container(
+        child: Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Button()
+          ],
+        ),
       ),
     );
   }
@@ -201,6 +205,8 @@ class _DesktopProfilePageState extends State<DesktopProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     return Container(
         height: height, width: width, child: stackedWidgets(height, width));
   }
@@ -455,9 +461,7 @@ class _MobileStackPageState extends State<MobileStackPage> {
           ),
           SizedBox(
             height: 30,
-          ),
-          // whoIAmWidget(30),
-          // whoIamDetailsWidget(30)
+          )
         ],
       ),
     );
@@ -723,5 +727,251 @@ Widget whatIdoCardMobile(double height, double width, Color color,
         height: 20,
       ),
     ],
+  );
+}
+
+// This is our work section
+
+class SelectedWorks extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 1200) {
+          return DesktopSelectedWorks();
+        } else {
+          return MobileSelectedWorks();
+        }
+      },
+    );
+  }
+}
+
+class DesktopSelectedWorks extends StatefulWidget {
+  @override
+  _DesktopSelectedWorksState createState() => _DesktopSelectedWorksState();
+}
+
+class _DesktopSelectedWorksState extends State<DesktopSelectedWorks> {
+  var width;
+  var height;
+
+  @override
+  Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 0.08 * width),
+      child: Row(
+        children: [
+          Container(
+            child: SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  worksSelected(
+                      0.6 * height, 0.4 * width, 'assets/images/chat.png'),
+                  SizedBox(
+                    height: 60,
+                  ),
+                  worksSelected(
+                      0.6 * height, 0.4 * width, 'assets/images/news.png'),
+                  SizedBox(
+                    height: 60,
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class MobileSelectedWorks extends StatefulWidget {
+  @override
+  _MobileSelectedWorksState createState() => _MobileSelectedWorksState();
+}
+
+class _MobileSelectedWorksState extends State<MobileSelectedWorks> {
+  var width;
+  var height;
+  @override
+  Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
+    return Container(
+      width: width,
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            Center(child: selectedWorksWidget(30)),
+            SizedBox(
+              height: 30,
+            ),
+            worksSelected(350, 1.0 * width, 'assets/images/chat.png'),
+            SizedBox(
+              height: 20,
+            ),
+            worksSelected(350, 1.0 * width, 'assets/images/news.png'),
+            SizedBox(
+              height: 20,
+            ),
+            worksSelected(350, 1.0 * width, 'assets/images/chat.png'),
+            SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Selected Works Images
+Widget selectedWorksWidget(double fontSize) {
+  return Text(
+    'Some Sleceted Works',
+    style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+  );
+}
+
+Widget worksSelected(double imageHeight, double imageWidth, String image) {
+  return Material(
+    borderRadius: BorderRadius.circular(8),
+    elevation: 20,
+    child: Container(
+      width: imageWidth,
+      height: imageHeight,
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+    ),
+  );
+}
+
+class ContactPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 1200) {
+          return DesktopContactPage();
+        } else {
+          return MobileContactPage();
+        }
+      },
+    );
+  }
+}
+
+class DesktopContactPage extends StatefulWidget {
+  @override
+  _DesktopContactPageState createState() => _DesktopContactPageState();
+}
+
+class _DesktopContactPageState extends State<DesktopContactPage> {
+  var width;
+  var height;
+
+  @override
+  Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    return Container(
+      width: width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SizedBox(
+            height: 60,
+          ),
+          contactEmail(200, 0.8 * width, 16, 20),
+          SizedBox(
+            height: 60,
+          ),
+          Text(
+            bRightsReserved,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MobileContactPage extends StatefulWidget {
+  @override
+  _MobileContactPageState createState() => _MobileContactPageState();
+}
+
+class _MobileContactPageState extends State<MobileContactPage> {
+  var width;
+  var height;
+
+  @override
+  Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    return Container(
+      width: width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SizedBox(
+            height: 60,
+          ),
+          contactEmail(200, 0.8 * width, 16, 20),
+          SizedBox(
+            height: 60,
+          ),
+          Text(
+            bRightsReserved,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Widget contactEmail(double height, double width, double sayHelloFontSize,
+    double emailIDFontSize) {
+  return Material(
+    elevation: 15,
+    borderRadius: BorderRadius.circular(10),
+    child: Container(
+      height: height,
+      width: width,
+      //color: Colors.white,
+      padding: EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            bContactCardTitle,
+            style: TextStyle(fontSize: sayHelloFontSize, color: Colors.black),
+          ),
+          SelectableText(
+            bEmail,
+            style: TextStyle(
+                fontSize: emailIDFontSize, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    ),
   );
 }
